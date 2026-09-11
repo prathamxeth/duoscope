@@ -5,6 +5,7 @@ import {
   FoldLensReport,
   HingeSpecification
 } from '@foldlens/core-types';
+import { runInBrowserScan } from '../utils/browserScanner';
 
 export type WizardStep = 1 | 2 | 3 | 4 | 5;
 
@@ -221,22 +222,38 @@ export const WizardProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         payload.rawCode = intakeConfig.rawCode || `import UIKit\nclass AppView: UIView { var width = UIScreen.main.bounds.width }`;
       }
 
-      const res = await fetch('/api/audit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      try {
+        const res = await fetch('/api/audit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.report) {
+            setReport(data.report);
+            setIsScanning(false);
+            return data.report;
+          }
+        }
+      } catch (_) {
+        // Fallback to in-browser scanner on static hosting (GitHub Pages)
+      }
+
+      // Execute in-browser static engine
+      const fallbackReport = runInBrowserScan({
+        appName: payload.appName,
+        bundleId: payload.bundleId,
+        rawCode: payload.rawCode,
+        files: intakeConfig.uploadedFiles
       });
 
-      const data = await res.json();
-      if (data.success && data.report) {
-        setReport(data.report);
-        setIsScanning(false);
-        return data.report;
-      } else {
-        throw new Error(data.error || 'Scan failed');
-      }
+      setReport(fallbackReport);
+      setIsScanning(false);
+      return fallbackReport;
     } catch (err) {
-      console.error('Real audit scan error:', err);
+      console.error('Audit scan error:', err);
       setIsScanning(false);
       throw err;
     }
