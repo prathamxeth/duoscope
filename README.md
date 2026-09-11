@@ -11,7 +11,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14.2-black.svg?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![Form Factor](https://img.shields.io/badge/Hardware-iPhone%20Duo-0071E3.svg?style=flat-square&logo=apple&logoColor=white)](https://apple.com)
 
-[**Live Demo**](http://localhost:3001) • [**CLI Documentation**](#-cli-reference) • [**AI Agent Skill**](#-ai-agent-skill-integration) • [**Rule Engine**](#-diagnostic-rule-engine)
+[**Live Demo (GitHub Pages)**](https://prathamxeth.github.io/duoscope/) • [**CLI Documentation**](#-cli-reference) • [**AI Agent Skill**](#-ai-agent-skill-integration) • [**Rule Engine**](#-diagnostic-rule-engine)
 
 </div>
 
