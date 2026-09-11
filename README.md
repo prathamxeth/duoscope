@@ -1,247 +1,158 @@
 # DuoScope 📱⚡
 
-<div align="center">
-
-**The Automated Diagnostics, 3D Simulation & Continuity Suite for Foldable iOS Apps**  
-*Built for iPhone Duo (5.4" Compact Cover $\leftrightarrow$ 7.6" Expanded Canvas)*
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-339933.svg?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![Node](https://img.shields.io/badge/Node-%3E%3D18.0.0-339933.svg?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4+-3178C6.svg?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2-black.svg?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Form Factor](https://img.shields.io/badge/Hardware-iPhone%20Duo-0071E3.svg?style=flat-square&logo=apple&logoColor=white)](https://apple.com)
+[![Hardware Target](https://img.shields.io/badge/Hardware-iPhone%20Duo%20(5.4%22%20%E2%86%94%207.6%22)-0071E3.svg?style=flat-square&logo=apple&logoColor=white)](https://apple.com)
 
-[**Live Demo (GitHub Pages)**](https://prathamxeth.github.io/duoscope/) • [**CLI Documentation**](#-cli-reference) • [**AI Agent Skill**](#-ai-agent-skill-integration) • [**Rule Engine**](#-diagnostic-rule-engine)
+Automated diagnostics, 3D hardware simulation, and AST auto-patching engine for dual-screen and foldable iOS applications (**iPhone Duo: 5.4" cover display $\leftrightarrow$ 7.6" unfolded canvas**).
 
-</div>
-
----
-
-## 📑 Table of Contents
-
-- [Overview](#-overview)
-- [Key Features](#-key-features)
-- [Architecture](#-architecture)
-- [Quick Start & Cloning](#-quick-start--cloning)
-- [CLI Reference](#-cli-reference)
-- [AI Agent Skill Integration](#-ai-agent-skill-integration)
-- [Diagnostic Rule Engine](#-diagnostic-rule-engine)
-- [Project Structure](#-project-structure)
-- [Development & Scripts](#-development--scripts)
-- [Contributing](#-contributing)
-- [License](#-license)
+[**🌐 Live Studio (GitHub Pages)**](https://prathamxeth.github.io/duoscope/) • [**💻 CLI Docs**](#-cli-reference) • [**🤖 AI Skill**](#-ai-agent-skill) • [**🔬 Diagnostic Rules**](#-diagnostic-rules--diffs)
 
 ---
 
-## 🌟 Overview
-
-**DuoScope** provides the essential developer tooling required to build, audit, and patch Swift and SwiftUI applications for dual-screen and foldable form factors. It combines a **headless AST analyzer CLI**, an **interactive 3D Web Studio**, and an **AI Agent Skill** to eliminate layout traps, resolve physical crease collisions, and profile continuity performance.
-
-```
-+-------------------------------------------------------------------------+
-|                                DUOSCOPE                                 |
-+--------------------+---------------------+------------------------------+
-|   🤖 AI Agent      |   💻 Headless CLI   |   🌐 Web Studio & 3D Sim     |
-|   Skill Interface  |   npx duoscope      |   Next.js + WebGL Physics    |
-+--------------------+---------------------+------------------------------+
-```
-
----
-
-## ✨ Key Features
-
-- 📐 **Crease Collision Safety**: Identifies interactive controls, buttons, and checkout flows straddling the central hinge ($x = 384\text{pt} \pm 12\text{pt}$) and re-anchors them with fold-safe padding.
-- 🚫 **UIScreen Trap Buster**: Automatically flags and refactors legacy `UIScreen.main.bounds` references to dynamic view-hierarchy containers (`GeometryReader`, `view.bounds`).
-- 🔄 **3D Phone Physics Simulator**: Spin, tilt, and bend the simulated hardware from 0° (folded) to 180° (flat canvas) with real-time UI adaptation.
-- ⚡ **Automated AST Auto-Patching**: Execute one-click or CLI-based remediation to produce clean git diffs directly into your Xcode projects.
-- 🤖 **Native AI Agent Skill**: Drop-in `.agents/skills/duoscope` workflow for AI coding assistants (Antigravity, Cursor, Claude Code) to autonomously diagnose and fix foldable iOS codebases.
-
----
-
-## 🚀 Quick Start & Cloning
-
-### 1. Clone the Repository
-
-Choose your preferred git method:
+## ⚡ Quickstart
 
 ```bash
-# Via GitHub CLI (Recommended)
-gh repo clone prathamxeth/duoscope
-
-# Via HTTPS
+# 1. Clone
 git clone https://github.com/prathamxeth/duoscope.git
-
-# Via SSH
-git clone git@github.com:prathamxeth/duoscope.git
-
-# Navigate into the project
 cd duoscope
-```
 
-### 2. Install Dependencies
-
-```bash
-# Install root monorepo & package workspaces
+# 2. Install & Build Monorepo
 npm install
-```
-
-### 3. Build & Run the Web Studio
-
-```bash
-# Build all internal packages (@foldlens/core-types, @foldlens/analyzer)
 npm run build
 
-# Start the interactive Next.js developer studio
+# 3. Launch Web Studio (Next.js + 3D Physics Sim)
 npm run dev:web
+# -> http://localhost:3000 (or http://localhost:3001)
+
+# 4. Or Run CLI Directly on any Swift file or Xcode Project
+npx duoscope audit ./path/to/ios/Sources --fix
 ```
 
-The Web Studio will be running at **`http://localhost:3000`** (or `http://localhost:3001`).
+---
+
+## 🧩 Monorepo Workspaces
+
+| Workspace | Type | Path | Purpose |
+|---|---|---|---|
+| **`.agents/skills/duoscope`** | Skill | [`.agents/skills/duoscope/SKILL.md`](.agents/skills/duoscope/SKILL.md) | Drop-in AI agent skill for autonomous dual-screen auditing & code remediation. |
+| **`apps/web`** | App | [`apps/web`](apps/web) | Next.js 14 Web Studio with real-time 3D phone physics, fold-crease overlay & diff inspector. |
+| **`packages/cli`** | Binary | [`packages/cli`](packages/cli) | Standalone Node.js CLI tool (`npx duoscope audit <path> [--fix] [--json]`). |
+| **`packages/core-types`** | Package | [`packages/core-types`](packages/core-types) | Shared TypeScript data contracts, AST schemas, and diagnostic report models. |
+| **`services/analyzer`** | Service | [`services/analyzer`](services/analyzer) | Static AST parsing, regex heuristic rules, and Info.plist / `.xcassets` scanners. |
 
 ---
 
 ## 💻 CLI Reference
 
-DuoScope ships with a standalone CLI engine in `packages/cli` that can be run directly via `npx`:
-
-### Installation & Run
+DuoScope CLI analyzes Swift/Obj-C source trees and generates non-destructive AST patches.
 
 ```bash
-# Audit a single Swift source file
-npx duoscope audit ./Sources/Views/ProductDetailView.swift
+# Basic audit on single file or directory
+npx duoscope audit ./Sources/Views/ProductView.swift
 
-# Audit an entire Xcode workspace or directory
-npx duoscope audit ./ios-app
+# Run audit & auto-apply fixes in-place
+npx duoscope audit ./Sources --fix
 
-# Audit and automatically apply safe layout fixes
-npx duoscope audit ./ios-app --fix
+# Export machine-readable JSON report for CI/CD status checks
+npx duoscope audit ./Sources --json > duoscope-report.json
 
-# Output diagnostic results as structured JSON for CI/CD
-npx duoscope audit ./ios-app --json > duoscope-report.json
+# Check version & usage
+npx duoscope --help
 ```
 
-### CLI Command Options
+### CLI Options
 
-| Flag | Description |
-|---|---|
-| `audit <path>` | Scans file or directory for foldable layout traps and hinge violations. |
-| `--fix` | Automatically rewrites source files with non-destructive code patches. |
-| `--json` | Formats output as machine-readable JSON for CI/CD status checks. |
-| `version` | Displays current DuoScope engine version. |
-| `--help` | Displays command documentation and usage examples. |
+| Flag | Argument | Description |
+|---|---|---|
+| `audit` | `<path>` | **Required**. Target file or root directory to analyze. |
+| `--fix` | _none_ | Auto-replaces detected AST anti-patterns with validated safe layout code. |
+| `--json` | _none_ | Outputs report directly to stdout as formatted JSON. |
+| `version` | _none_ | Prints installed DuoScope version. |
 
 ---
 
-## 🤖 AI Agent Skill Integration
+## 🔬 Diagnostic Rules & Diffs
 
-DuoScope includes a standardized AI Agent Skill located at [`.agents/skills/duoscope/SKILL.md`](.agents/skills/duoscope/SKILL.md).
+DuoScope checks against the 4 core failure modes of foldable iOS applications:
 
-### Using with AI Coding Assistants
-
-Copy the skill to your project's `.agents/skills/` directory or global customizations root (`~/.gemini/config/skills/duoscope`):
-
-```bash
-# Verify skill presence
-ls -la .agents/skills/duoscope/SKILL.md
-```
-
-### Prompting AI Agents
-
-When working with an AI assistant in your iOS repository, trigger DuoScope with:
-
-> *"Audit this SwiftUI view for iPhone Duo dual-screen continuity and apply safe fold layout fixes using the DuoScope skill."*
-
-The agent will parse view ASTs, detect crease seam hazards, and generate validated patches following Apple Human Interface Guidelines for foldable form factors.
-
----
-
-## 🔬 Diagnostic Rule Engine
-
-DuoScope tests against 4 primary categories of dual-screen and foldable defects:
-
-### 1. Fixed Screen Dimension Traps (`UIScreen.main.bounds`)
+### 1. `UIScreen.main.bounds` Dimension Trap (CRITICAL)
+> **Problem**: Hardcoded screen queries return rigid dimensions that freeze or distort when unfolding to the 7.6" canvas.
 
 ```diff
 - let itemWidth = UIScreen.main.bounds.width / 2.0
++ // SwiftUI Fix
++ GeometryReader { geo in
++     let itemWidth = geo.size.width / 2.0
++ }
++ // UIKit Fix
 + let itemWidth = view.bounds.width / 2.0
 ```
 
-### 2. Crease Seam Collisions ($x = 384\text{pt}$)
+### 2. Central Crease Seam Collision (HIGH)
+> **Problem**: Centered buttons or checkout CTAs straddle the physical folding crease ($x = 384\text{pt} \pm 12\text{pt}$), causing touch occlusion and visual cut-offs.
 
 ```diff
 - purchaseButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-+ purchaseButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
++ purchaseButton.trailingAnchor.constraint(
++     equalTo: view.safeAreaLayoutGuide.trailingAnchor, 
++     constant: -20
++ ).isActive = true
 ```
 
-### 3. Hardcoded Compact Widths
+### 3. Hardcoded Compact Widths (MEDIUM)
+> **Problem**: Rigid single-screen frame widths (`375`, `390`, `414pt`) clip content on 7.6" unfolded canvas.
 
 ```diff
-- .frame(width: 390, height: 200)
-+ .frame(maxWidth: .infinity, minHeight: 200)
+- .frame(width: 390, height: 220)
++ .frame(maxWidth: .infinity, minHeight: 220)
 ```
 
-### 4. Plist & Multi-Window Readiness
-
-Audits `Info.plist` to ensure:
-- `UIDeviceFamily` supports iPad/Universal (`2`).
-- `UIRequiresFullScreen` is set to `false` (allowing dynamic window resizing).
-- Asset catalogs contain vector/`@3x` high-density assets for 7.6" canvas expansion.
+### 4. Multitasking & Asset Scalability (LOW / INFO)
+- Verifies `Info.plist` has `UIRequiresFullScreen = false` to support foldable side-by-side apps.
+- Flags raster-only `@1x`/`@2x` assets missing vector or `@3x` representations for 7.6" high-DPI scaling.
 
 ---
 
-## 📂 Project Structure
+## 🤖 AI Agent Skill
+
+DuoScope includes a native skill definition in [`.agents/skills/duoscope/SKILL.md`](.agents/skills/duoscope/SKILL.md).
+
+### Installation for Coding Agents
+
+Copy `.agents/skills/duoscope` into your workspace `.agents/skills/` or global root (`~/.gemini/config/skills/duoscope`).
+
+### Prompt Example
 
 ```
-duoscope/
-├── .agents/
-│   └── skills/
-│       └── duoscope/            # 🤖 AI Agent Skill definition (SKILL.md)
-├── apps/
-│   └── web/                     # 🌐 Next.js Web Studio & 3D Simulator
-│       ├── public/              # Favicons, Web App Manifest, Static Assets
-│       └── src/
-│           ├── app/             # Next.js App Router (Layout & API routes)
-│           ├── components/      # 3D Phone Simulator, Issue Ledger, Diff Inspector
-│           ├── context/         # Wizard & Navigation State Engine
-│           └── utils/           # Metadata Extractor (.ipa, .plist, Swift)
-├── packages/
-│   ├── cli/                     # 💻 Standalone Node.js CLI executable (duoscope.js)
-│   └── core-types/              # 📦 Shared TypeScript interfaces & report schemas
-├── services/
-│   └── analyzer/                # ⚙️ Static AST analysis engine & heuristic rules
-├── package.json                 # Monorepo Workspace Configuration
-└── tsconfig.base.json           # Base TypeScript Configuration
+"Run DuoScope diagnostics on my iOS views, check for fold crease collisions and UIScreen traps, and apply auto-fixes."
 ```
 
 ---
 
-## 🛠️ Development & Scripts
+## 🌐 Web Studio & 3D Simulation
 
-| Command | Description |
-|---|---|
-| `npm run dev:web` | Starts Next.js development server for the Web Studio (`localhost:3001`). |
-| `npm run build` | Builds all packages across workspaces. |
-| `npm run analyze` | Runs static analyzer service against test fixtures. |
-| `npm test` | Runs Jest unit tests across packages. |
-| `npx tsc --noEmit` | Runs full typecheck across workspace without emitting JS. |
+The web studio (`apps/web`) features:
+- **Interactive 3D Phone Hardware**: 0°–180° continuous hinge angle testing with realistic physical lighting & posture simulation (Handheld, Tabletop, Unfolded Flat).
+- **Intake Modes**: Xcode zip archive, Swift file upload, raw code paste, or local path analysis.
+- **Side-by-Side Diff Inspector**: Visual before/after code review with 1-click copy.
+- **Static Export**: Runs client-side fallback engine on static hosts (GitHub Pages) with zero server requirement.
 
 ---
 
-## 🤝 Contributing
+## 🛠️ Monorepo Scripts
 
-Contributions, bug reports, and rule improvements are welcome!
-
-1. **Fork the Repository**
-2. **Create a Feature Branch**: `git checkout -b feat/new-crease-rule`
-3. **Commit Your Changes**: `git commit -m 'feat: add adaptive split view rule'`
-4. **Push to the Branch**: `git push origin feat/new-crease-rule`
-5. **Open a Pull Request**
+```bash
+npm run build      # Builds all packages across workspaces
+npm run dev:web    # Starts Next.js development server on localhost:3001
+npm test           # Executes Jest test suites across workspaces
+npm run analyze    # Runs static scanner service against test fixtures
+```
 
 ---
 
 ## 📄 License
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
-
-<div align="center">
-<sub>Crafted with precision for next-generation foldable hardware by the <b>DuoScope Team</b>.</sub>
-</div>
+MIT © 2026 DuoScope Team
