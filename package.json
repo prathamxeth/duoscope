@@ -1,0 +1,32 @@
+{
+  "name": "duoscope-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DuoScope: Precision diagnostics, 3D simulation, and continuity profiling for iOS foldable form factors",
+  "workspaces": [
+    "packages/*",
+    "services/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present",
+    "analyze": "npm run start -w @foldlens/analyzer",
+    "dev:web": "npm run dev -w @foldlens/web"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "keywords": [
+    "ios",
+    "foldable",
+    "dual-screen",
+    "continuity",
+    "diagnostics",
+    "swift",
+    "swiftui",
+    "uikit"
+  ],
+  "author": "DuoScope Team",
+  "license": "MIT"
+}

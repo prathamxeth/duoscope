@@ -1,0 +1,25 @@
+{
+  "name": "duoscope",
+  "version": "1.0.0",
+  "description": "DuoScope CLI & AI Agent toolkit for dual-screen and foldable iOS continuity diagnostics and automated fixes",
+  "bin": {
+    "duoscope": "./bin/duoscope.js"
+  },
+  "main": "./bin/duoscope.js",
+  "scripts": {
+    "start": "node ./bin/duoscope.js"
+  },
+  "keywords": [
+    "duoscope",
+    "ios",
+    "foldable",
+    "dual-screen",
+    "continuity",
+    "diagnostics",
+    "swift",
+    "swiftui",
+    "uikit"
+  ],
+  "author": "DuoScope Team",
+  "license": "MIT"
+}
