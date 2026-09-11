@@ -1,25 +1,27 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.NODE_ENV === 'production' ? '/duoscope' : '');
+
 export const metadata: Metadata = {
   title: 'DuoScope | Dual-Screen iOS Continuity Diagnostics & 3D Simulation',
   description: 'Automated developer diagnostics & continuity profiling for iOS foldable form factors (iPhone Duo 5.4" <-> 7.6")',
-  manifest: '/site.webmanifest',
+  manifest: `${basePath}/site.webmanifest`,
   icons: {
     icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/favicon.png', type: 'image/png' }
+      { url: `${basePath}/favicon-16x16.png`, sizes: '16x16', type: 'image/png' },
+      { url: `${basePath}/favicon-32x32.png`, sizes: '32x32', type: 'image/png' },
+      { url: `${basePath}/favicon-48x48.png`, sizes: '48x48', type: 'image/png' },
+      { url: `${basePath}/favicon.ico`, sizes: '32x32' },
+      { url: `${basePath}/favicon.png`, type: 'image/png' }
     ],
-    shortcut: '/favicon-32x32.png',
+    shortcut: `${basePath}/favicon-32x32.png`,
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+      { url: `${basePath}/apple-touch-icon.png`, sizes: '180x180', type: 'image/png' }
     ],
     other: [
-      { rel: 'icon', url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-      { rel: 'icon', url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }
+      { rel: 'icon', url: `${basePath}/android-chrome-192x192.png`, sizes: '192x192', type: 'image/png' },
+      { rel: 'icon', url: `${basePath}/android-chrome-512x512.png`, sizes: '512x512', type: 'image/png' }
     ]
   }
 };
@@ -32,11 +34,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" type="image/png" sizes="16x16" href={`${basePath}/favicon-16x16.png`} />
+        <link rel="icon" type="image/png" sizes="32x32" href={`${basePath}/favicon-32x32.png`} />
+        <link rel="icon" type="image/png" sizes="48x48" href={`${basePath}/favicon-48x48.png`} />
+        <link rel="icon" type="image/png" href={`${basePath}/favicon.png`} />
+        <link rel="shortcut icon" href={`${basePath}/favicon.ico`} />
+        <link rel="apple-touch-icon" sizes="180x180" href={`${basePath}/apple-touch-icon.png`} />
+        <link rel="manifest" href={`${basePath}/site.webmanifest`} />
 
         {/* Video CDN Early DNS & Connection Warmup */}
         <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossOrigin="anonymous" />
