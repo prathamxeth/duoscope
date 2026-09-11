@@ -1,55 +1,129 @@
-# DuoScope 📱⚡
+<div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.4+-3178C6.svg?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14.2-black.svg?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Hardware Target](https://img.shields.io/badge/Hardware-iPhone%20Duo%20(5.4%22%20%E2%86%94%207.6%22)-0071E3.svg?style=flat-square&logo=apple&logoColor=white)](https://apple.com)
+# 📱 DuoScope
 
-Automated diagnostics, 3D hardware simulation, and continuity remediation engine for foldable iOS applications (**iPhone Duo: 5.4" cover display $\leftrightarrow$ 7.6" unfolded canvas**).
+### *Your iOS apps weren't built for hinges. DuoScope fixes that.*
 
-[**🌐 Live Website & 3D Studio**](https://prathamxeth.github.io/duoscope/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.4+-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14.2-black.svg?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Deploy Status](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-30D158.svg?style=for-the-badge&logo=githubpages&logoColor=white)](https://prathamxeth.github.io/duoscope/)
+
+<br />
+
+```
+   ┌─────────────────┐       ┌─────────────────┬─────────────────┐
+   │                 │       │                 │                 │
+   │   5.4" COVER    │  ──>  │   LEFT SCREEN   │  RIGHT SCREEN   │
+   │    COMPACT      │       │     (384pt)     ║     (384pt)     │
+   │                 │       │                 ║ <── SEAM x=384  │
+   └─────────────────┘       └─────────────────┴─────────────────┘
+        Folded (0°)                       Unfolded (180°)
+```
+
+### [👉 Launch Live 3D Web Studio & Playground](https://prathamxeth.github.io/duoscope/)
+
+</div>
 
 ---
 
-## 🌐 Website & 3D Studio
+## 🎮 Interactive Features
 
-The **DuoScope Web Studio** ([`apps/web`](apps/web)) provides an interactive visual environment for auditing iOS applications against dual-screen form factors:
+<details open>
+<summary><h3>🌐 1. The 3D Web Studio & Hardware Simulator</h3></summary>
 
-- **Interactive 3D Phone Hardware**: Continuous 0°–180° hinge angle testing with real-time physical lighting and posture states (Handheld, Tabletop, Unfolded Flat).
-- **Fold Crease Safe Zone Visualizer**: Real-time overlay identifying UI components and action buttons crossing the central folding seam ($x = 384\text{pt} \pm 12\text{pt}$).
-- **Automated Intake & AST Diff Inspector**: Upload Xcode source packages, paste Swift/SwiftUI code, and inspect side-by-side remediation patches with one-click copy.
-- **Client-Side Static Engine**: Fully functional on static hosting environments (GitHub Pages) via built-in in-browser AST parsing fallback.
+Experience how your iOS app feels when folded, tilted on a table, or opened wide:
 
----
+* 🔄 **0° to 180° Physics Engine**: Drag to bend the device in real-time 3D space.
+* ⚠️ **Fold Line Radar**: Highlights controls and buttons trapped over the center seam ($x = 384\text{pt}$).
+* ⚡ **Instant Fixes**: Paste raw Swift code or drag `.swift` files to get drop-in SwiftUI/UIKit patches.
+* 📦 **Zero-Server Static Runtime**: Runs entirely client-side on GitHub Pages.
 
-## 🤖 AI Agent Skill
+[**Open the Web Studio →**](https://prathamxeth.github.io/duoscope/)
 
-DuoScope includes a native, production-grade AI Agent Skill located at [`.agents/skills/duoscope/SKILL.md`](.agents/skills/duoscope/SKILL.md).
+</details>
 
-### Capabilities
-- **`UIScreen.main.bounds` Trap Elimination**: Flags static screen dimension calls and generates dynamic `GeometryReader` / `view.bounds` replacements.
-- **Crease Collision Protection**: Re-anchors buttons, checkout CTAs, and interactive elements away from the $x = 384\text{pt}$ physical hinge seam.
-- **Responsive Width Refactoring**: Converts hardcoded single-screen frame widths (`375`, `390`, `414pt`) to adaptive container layouts.
-- **Info.plist & Multi-Window Readiness**: Verifies multitasking support (`UIRequiresFullScreen = false`) and high-density `@3x`/vector asset scaling.
+<details open>
+<summary><h3>🤖 2. The AI Agent Skill</h3></summary>
 
-### Usage with AI Assistants
-Add `.agents/skills/duoscope` to your project and prompt any AI coding assistant:
-> *"Audit this iOS project for iPhone Duo dual-screen continuity and apply safe fold layout fixes using the DuoScope skill."*
+DuoScope ships with a native drop-in AI Agent Skill (`.agents/skills/duoscope/SKILL.md`) for AI assistants (Antigravity, Cursor, Claude Code).
+
+#### 💬 Try this prompt in your AI agent:
+```markdown
+> "Audit my iOS project for iPhone Duo dual-screen continuity and apply safe fold layout fixes using the DuoScope skill."
+```
+
+#### 🛡️ What the AI Agent Solves Automatically:
+- [x] Rewrites `UIScreen.main.bounds` traps to adaptive `GeometryReader` / `view.bounds`
+- [x] Shifts `centerXAnchor` buttons safely away from the $x = 384\text{pt}$ physical crease
+- [x] Unlocks hardcoded single-screen frames (`375pt`, `390pt`, `414pt`) to dynamic widths
+- [x] Validates `Info.plist` multitasking & high-density `@3x` asset scaling
+
+</details>
+
+<details>
+<summary><h3>🔬 3. Interactive Code Diff Inspector</h3></summary>
+
+#### Trap 1: The `UIScreen.main.bounds` Trap
+```diff
+- // ❌ Freezes on 5.4" dimensions when unfolded
+- let cardWidth = UIScreen.main.bounds.width - 32
++ // ✨ Adapts dynamically to 7.6" canvas
++ GeometryReader { proxy in
++     let cardWidth = proxy.size.width - 32
++ }
+```
+
+#### Trap 2: The Crease Collision Seam ($x = 384\text{pt}$)
+```diff
+- // ❌ Button gets cut in half right over the physical hinge!
+- buyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
++ // ✨ Padded safely inside the right display quadrant
++ buyButton.trailingAnchor.constraint(
++     equalTo: view.safeAreaLayoutGuide.trailingAnchor,
++     constant: -20
++ ).isActive = true
+```
+
+#### Trap 3: Hardcoded Compact Frame Width
+```diff
+- // ❌ Clipped on 7.6" dual canvas
+- .frame(width: 390, height: 240)
++ // ✨ Expands fluidly
++ .frame(maxWidth: .infinity, minHeight: 240)
+```
+
+</details>
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Web Frontend**: [Next.js 14](https://nextjs.org/) (App Router), [React 18](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/)
-- **Design System**: Apple Liquid Glass, Pure OLED Dark Mode (`#000000`), `Instrument Serif`, `Barlow`, and `JetBrains Mono` typography
-- **3D Graphics & Physics**: CSS 3D matrix transform hardware rendering with multi-angle posture simulation
-- **Analysis Core**: TypeScript AST pattern parser, regex heuristic scanner, and Info.plist / `.xcassets` validators
-- **Deployment**: [GitHub Pages](https://pages.github.com/) via automated [GitHub Actions CI/CD](.github/workflows/deploy.yml)
+```
+   ┌─────────────────────────────────────────────────────────────┐
+   │                      DUOSCOPE STACK                         │
+   ├─────────────────┬───────────────────┬───────────────────────┤
+   │  Next.js 14     │  Tailwind CSS     │  CSS 3D Physics       │
+   │  App Router     │  Liquid Glass UI  │  Hardware Matrix Sim  │
+   ├─────────────────┼───────────────────┼───────────────────────┤
+   │  TypeScript 5.4 │  Regex AST Parser │  GitHub Actions CI/CD │
+   │  Strict Typing  │  Client Fallback  │  Automated Pages Host │
+   └─────────────────┴───────────────────┴───────────────────────┘
+```
+
+- **Frontend Core**: [Next.js 14](https://nextjs.org/), [React 18](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/)
+- **Visual Design**: Apple Liquid Glass, Pure OLED Dark Mode (`#000000`), `Instrument Serif` & `Barlow` Typography
+- **Hardware Simulation**: Real-time CSS 3D matrix transforms with continuous posture interpolation
+- **Static Deployment**: [GitHub Pages](https://pages.github.com/) with automated workflow deployment
 
 ---
 
-## 📄 License
+## 📄 Licensing
 
-This project is licensed under the **MIT License** — see the [`LICENSE`](LICENSE) file for details.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for complete terms.
 
-© 2026 DuoScope Team
+<div align="center">
+
+**[⚡ Try DuoScope Live](https://prathamxeth.github.io/duoscope/)** • Crafted for next-gen dual-screen iOS hardware by the **DuoScope Team**.
+
+</div>
