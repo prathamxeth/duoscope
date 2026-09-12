@@ -11,12 +11,7 @@ interface MetricsOverviewProps {
 
 export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ summary, continuity }) => {
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-      gap: '1.25rem',
-      marginBottom: '1.75rem'
-    }}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-6">
       {/* Critical Card */}
       <div className="liquid-glass" style={{
         padding: '1.5rem',

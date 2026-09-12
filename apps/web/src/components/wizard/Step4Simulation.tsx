@@ -47,10 +47,10 @@ export const Step4Simulation: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+    <div className="max-w-4xl mx-auto flex flex-col gap-5 w-full select-none">
       {/* Short Context Label */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.25rem' }}>
-        <span className="font-heading italic text-2xl text-white">
+      <div className="flex justify-between items-center pb-1">
+        <span className="font-heading italic text-2xl md:text-3xl text-white">
           Testing Folding Motion &amp; Animation
         </span>
         <span className="text-xs font-body text-white/70">
@@ -59,25 +59,23 @@ export const Step4Simulation: React.FC = () => {
       </div>
 
       {/* Live Simulation Status Monitor */}
-      <div className="liquid-glass rounded-[1.25rem]" style={{ padding: '1.75rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <PlayCircle size={20} color="#2997ff" className={!isSimulatingComplete ? 'animate-pulse' : ''} />
-            <span className="font-heading italic text-2xl text-white">
+      <div className="liquid-glass rounded-3xl p-5 sm:p-7 border border-white/10 shadow-xl">
+        <div className="flex justify-between items-center mb-5">
+          <div className="flex items-center gap-2.5">
+            <PlayCircle size={20} className={`text-[#2997ff] ${!isSimulatingComplete ? 'animate-pulse' : ''}`} />
+            <span className="font-heading italic text-xl sm:text-2xl text-white">
               Live Fold Transition Test
             </span>
           </div>
-          <span className="liquid-badge" style={{
-            background: isSimulatingComplete ? 'rgba(52, 199, 89, 0.15)' : 'rgba(0, 113, 227, 0.15)',
-            color: isSimulatingComplete ? '#30d158' : '#2997ff',
-            borderColor: isSimulatingComplete ? 'rgba(52, 199, 89, 0.35)' : 'rgba(0, 113, 227, 0.35)'
-          }}>
+          <span className={`liquid-glass text-xs font-semibold px-3 py-1 rounded-full border ${
+            isSimulatingComplete ? 'text-[#30d158] border-[#30d158]/30' : 'text-[#2997ff] border-[#2997ff]/30'
+          }`}>
             {isSimulatingComplete ? 'Simulation Ready' : 'Cycling Postures...'}
           </span>
         </div>
 
         {/* Step-by-Step Simulation Pipeline */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+        <div className="flex flex-col gap-3">
           {simulationSteps.map((sim, index) => {
             const isCompleted = sim.status === 'completed';
             const isWarning = sim.status === 'warning';
@@ -86,72 +84,47 @@ export const Step4Simulation: React.FC = () => {
             return (
               <div
                 key={sim.id}
-                style={{
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  background: isWarning
-                    ? 'rgba(255, 149, 0, 0.1)'
+                className={`p-3.5 sm:p-4 rounded-xl flex items-center justify-between gap-3 border transition-all ${
+                  isWarning
+                    ? 'bg-[#ff9f0a]/10 border-[#ff9f0a]/30'
                     : isCompleted
-                    ? 'rgba(52, 199, 89, 0.08)'
+                    ? 'bg-[#30d158]/10 border-[#30d158]/25'
                     : isRunning
-                    ? 'rgba(0, 113, 227, 0.1)'
-                    : 'rgba(255, 255, 255, 0.03)',
-                  border: isWarning
-                    ? '1px solid rgba(255, 149, 0, 0.3)'
-                    : isCompleted
-                    ? '1px solid rgba(52, 199, 89, 0.25)'
-                    : isRunning
-                    ? '1px solid rgba(0, 113, 227, 0.35)'
-                    : '1px solid rgba(255, 255, 255, 0.06)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '1rem',
-                  transition: 'all 200ms ease'
-                }}
+                    ? 'bg-[#0071e3]/15 border-[#0071e3]/35'
+                    : 'bg-white/[0.03] border-white/[0.06]'
+                }`}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                  <div style={{
-                    width: '26px',
-                    height: '26px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: isWarning
-                      ? 'rgba(255, 149, 0, 0.2)'
-                      : isCompleted
-                      ? 'rgba(52, 199, 89, 0.2)'
-                      : isRunning
-                      ? 'rgba(0, 113, 227, 0.2)'
-                      : 'rgba(255, 255, 255, 0.08)',
-                    color: isWarning
-                      ? '#ff9f0a'
-                      : isCompleted
-                      ? '#30d158'
-                      : isRunning
-                      ? '#2997ff'
-                      : 'rgba(255, 255, 255, 0.6)',
-                    fontSize: '0.75rem',
-                    fontWeight: 700
-                  }}>
+                <div className="flex items-center gap-3 min-w-0">
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                      isWarning
+                        ? 'bg-[#ff9f0a]/20 text-[#ff9f0a]'
+                        : isCompleted
+                        ? 'bg-[#30d158]/20 text-[#30d158]'
+                        : isRunning
+                        ? 'bg-[#0071e3]/20 text-[#2997ff]'
+                        : 'bg-white/10 text-white/60'
+                    }`}
+                  >
                     {isCompleted ? <CheckCircle2 size={16} /> : isWarning ? <AlertTriangle size={16} /> : index + 1}
                   </div>
-                  <div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#ffffff', fontFamily: 'var(--font-body)' }}>
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm font-semibold text-white font-body truncate">
                       {sim.label}
                     </div>
-                    <div className="font-mono" style={{ fontSize: '0.8rem', color: isWarning ? '#ff9f0a' : 'rgba(255, 255, 255, 0.65)' }}>
+                    <div className={`font-mono text-[11px] sm:text-xs truncate ${
+                      isWarning ? 'text-[#ff9f0a]' : 'text-white/65'
+                    }`}>
                       {sim.details || 'Pending step in queue...'}
                     </div>
                   </div>
                 </div>
 
-                <div style={{ fontSize: '0.76rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  {isRunning && <span style={{ color: '#2997ff' }}>In Progress</span>}
-                  {isCompleted && <span style={{ color: '#30d158' }}>Passed</span>}
-                  {isWarning && <span style={{ color: '#ff9f0a' }}>Anomaly</span>}
-                  {sim.status === 'pending' && <span style={{ color: 'rgba(255, 255, 255, 0.4)' }}>Queued</span>}
+                <div className="text-[11px] font-semibold uppercase tracking-wider shrink-0">
+                  {isRunning && <span className="text-[#2997ff]">In Progress</span>}
+                  {isCompleted && <span className="text-[#30d158]">Passed</span>}
+                  {isWarning && <span className="text-[#ff9f0a]">Anomaly</span>}
+                  {sim.status === 'pending' && <span className="text-white/40">Queued</span>}
                 </div>
               </div>
             );
@@ -160,54 +133,52 @@ export const Step4Simulation: React.FC = () => {
       </div>
 
       {/* Performance & Fold Summary Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
-        <div className="liquid-glass rounded-[1.25rem]" style={{ padding: '1.25rem' }}>
-          <div style={{ fontSize: '0.76rem', color: 'rgba(255, 255, 255, 0.6)', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.04em', marginBottom: '4px' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="liquid-glass rounded-2xl p-4 sm:p-5 border border-white/10">
+          <div className="text-[11px] text-white/60 uppercase font-semibold tracking-wider mb-1 font-body">
             Opening Speed &amp; Delay
           </div>
-          <div className="font-mono tabular-nums" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ff453a' }}>
-            24.6 ms <span style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.5)', fontWeight: 400 }}>(Small delay)</span>
+          <div className="font-mono tabular-nums text-xl sm:text-2xl font-extrabold text-[#ff453a]">
+            24.6 ms <span className="text-xs text-white/50 font-normal font-body">(Small delay)</span>
           </div>
         </div>
 
-        <div className="liquid-glass rounded-[1.25rem]" style={{ padding: '1.25rem' }}>
-          <div style={{ fontSize: '0.76rem', color: 'rgba(255, 255, 255, 0.6)', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.04em', marginBottom: '4px' }}>
+        <div className="liquid-glass rounded-2xl p-4 sm:p-5 border border-white/10">
+          <div className="text-[11px] text-white/60 uppercase font-semibold tracking-wider mb-1 font-body">
             Animation Stutter Frames
           </div>
-          <div className="font-mono tabular-nums" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ff9f0a' }}>
-            3 Hitch Frames <span style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.5)', fontWeight: 400 }}>(Brief lag)</span>
+          <div className="font-mono tabular-nums text-xl sm:text-2xl font-extrabold text-[#ff9f0a]">
+            3 Hitch Frames <span className="text-xs text-white/50 font-normal font-body">(Brief lag)</span>
           </div>
         </div>
 
-        <div className="liquid-glass rounded-[1.25rem]" style={{ padding: '1.25rem' }}>
-          <div style={{ fontSize: '0.76rem', color: 'rgba(255, 255, 255, 0.6)', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.04em', marginBottom: '4px' }}>
+        <div className="liquid-glass rounded-2xl p-4 sm:p-5 border border-white/10">
+          <div className="text-[11px] text-white/60 uppercase font-semibold tracking-wider mb-1 font-body">
             Buttons on Middle Fold Line
           </div>
-          <div className="font-mono tabular-nums" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ff453a' }}>
-            1 Button Cut <span style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.5)', fontWeight: 400 }}>(Checkout Button)</span>
+          <div className="font-mono tabular-nums text-xl sm:text-2xl font-extrabold text-[#ff453a]">
+            1 Button Cut <span className="text-xs text-white/50 font-normal font-body">(Checkout Button)</span>
           </div>
         </div>
       </div>
 
       {/* Navigation Actions */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem' }}>
+      <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-3 pt-2">
         <button
           onClick={prevStep}
-          className="liquid-button"
-          style={{ padding: '12px 24px', fontSize: '0.95rem' }}
+          className="w-full sm:w-auto liquid-glass rounded-full px-5 py-2.5 text-xs sm:text-sm font-body text-white/90 hover:text-white flex items-center justify-center gap-2 transition-all cursor-pointer border-0 shadow-md"
         >
-          <ArrowLeft size={17} />
+          <ArrowLeft size={16} />
           <span>Back to Layout Scan</span>
         </button>
 
         <button
           onClick={nextStep}
           disabled={!isSimulatingComplete}
-          className="liquid-button liquid-button-primary"
-          style={{ padding: '12px 30px', fontSize: '0.95rem', opacity: isSimulatingComplete ? 1 : 0.6 }}
+          className="w-full sm:w-auto bg-white text-black font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-full flex items-center justify-center gap-2 hover:bg-white/90 hover:scale-[1.02] transition-all cursor-pointer border-0 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span>View Final Report &amp; Fixes</span>
-          <ArrowRight size={17} />
+          <ArrowRight size={16} />
         </button>
       </div>
     </div>

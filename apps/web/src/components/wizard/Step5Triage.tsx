@@ -131,16 +131,16 @@ export const Step5Triage: React.FC = () => {
       />
 
       {/* Main Two-Column Triage Workspace */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(420px, 1fr) minmax(460px, 1.2fr)', gap: '1.75rem', alignItems: 'start' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column: Interactive Issue Ledger */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div className="lg:col-span-5 flex flex-col gap-6">
           <IssueLedger
             findings={report.findings}
           />
         </div>
 
         {/* Right Column: Visual Diff & Simulator Inspection */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        <div className="lg:col-span-7 flex flex-col gap-6">
           <DiffInspector />
           <FoldSimulator />
         </div>
